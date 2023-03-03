@@ -24,7 +24,7 @@ Users should be able to import their information from raider.io
 
 ### Initial ERD
 
-![ERD](https://i.imgur.com/vWjgFkp.png)
+![ERD](https://i.imgur.com/YOqqgfO.png)
 
 ### Initial Wireframe
 
