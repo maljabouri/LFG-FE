@@ -1,24 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import apiUrl from '../api/api';
 
-let apiUrl;
-const expressPort = 5001;
-const apiUrls = {
-    development: `http://localhost:${expressPort}/api`,
-    production: `https://example.domain.com/api`
-}
 
-if (window.location.hostname === 'localhost') {
-    apiUrl = apiUrls.development;
-} else {
-    apiUrl = apiUrls.production;
-}
 
 const RegisterForm = () => {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
   const [server, setServer] = useState('');
   const [roles, setRoles] = useState([]);
   const [content, setContent] = useState([]);
@@ -27,8 +16,8 @@ const RegisterForm = () => {
   const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
 
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
   const handleEmailChange = (event) => {
@@ -37,10 +26,6 @@ const RegisterForm = () => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-  };
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
   };
 
   const handleServerChange = (event) => {
@@ -62,10 +47,11 @@ const RegisterForm = () => {
     const { value, checked } = event.target;
     if (checked) {
       setContent([...content, value]);
+      setContentValid(true);
     } else {
       setContent(content.filter((type) => type !== value));
-    }
-    setContentValid(content.length > 0);
+      setContentValid(roles.length > 1);
+    }    
   };
   
 
@@ -80,22 +66,19 @@ const RegisterForm = () => {
     }
     try {
       const newUser = {
-        name,
-        email,
-        password,
         username,
+        email,
+        password,        
         server,
         roles,
         content,
       };
-      const response = await axios.post(`${apiUrl}/register`, newUser);
+      await axios.post(`${apiUrl}/register`, newUser);
       setRegistrationSuccessful(true);
-      // do something with response, like redirect to a success page
     } catch (err) {
       console.error(err);
-      // handle error, like displaying an error message to the user
     }
-  };
+  }
 
   return (
     <>
@@ -104,8 +87,8 @@ const RegisterForm = () => {
     ) :
     <form onSubmit={handleSubmit}>
       <label>
-        Name:
-        <input type="text" value={name} onChange={handleNameChange} required />
+        Username:
+        <input type="text" value={username} onChange={handleUsernameChange} required />
       </label>
       <label>
         Email:
@@ -114,10 +97,6 @@ const RegisterForm = () => {
       <label>
         Password:
         <input type="password" value={password} onChange={handlePasswordChange} required />
-      </label>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={handleUsernameChange} required />
       </label>
       <label>
         Server:

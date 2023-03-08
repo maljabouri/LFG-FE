@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LoginForm from './Login';
 import RegisterForm from './Register';
 
 function LandingPage() {
@@ -11,7 +12,7 @@ function LandingPage() {
   return (
     <div>
       <h1>Welcome to My App!</h1>
-      {isRegistering ? <div><RegisterForm/></div> : <p>REGISTER</p>}
+      {isRegistering ? <div><RegisterForm/></div> : <div><LoginForm/></div>}
       <button onClick={handleToggle}>{isRegistering ? "Already have an account? Login" : "Need to register? Create an account"}</button>
     </div>
   );
