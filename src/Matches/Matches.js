@@ -1,69 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import Bio from './Bio';
-import Rankings from './Rankings';
-import DisplayPicture from './DisplayPicture';
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import apiUrl from '../api/api';
 
-function Matches() {
-  const [currentMatch, setCurrentMatch] = useState({});
-  const [matches, setMatches] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const UserSearch = ({ currentUser }) => {
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [likedUsers, setLikedUsers] = useState([]);
+  const [dislikedUsers, setDislikedUsers] = useState([]);
 
   useEffect(() => {
-    const fetchMatches = async () => {
-      setIsLoading(true);
-
+    const fetchUsers = async () => {
       try {
-        // Make API call to fetch matches
-        const response = await fetch('https://example.com/api/matches');
-        const data = await response.json();
-        setMatches(data);
-        setCurrentMatch(data[0]);
-      } catch (error) {
-        setError(error);
+        const response = await axios.get(`${apiUrl}/users/search/${currentUser._id}`);
+        console.log('response.data', response.data)
+        setUsers(response.data);
+      } catch (err) {
+        console.error(err);
       }
-
-      setIsLoading(false);
     };
 
-    fetchMatches();
+    fetchUsers();
   }, []);
 
-  const handleDislike = () => {
-    // Handle dislike logic here, e.g. update database, fetch next match
-    const index = matches.findIndex((match) => match.id === currentMatch.id);
-    if (index < matches.length - 1) {
-      setCurrentMatch(matches[index + 1]);
-    } else {
-      // Handle end of matches
-    }
-  };
+  useEffect(() => {
+    const filteredUsers = users.filter((user) => {
+      return (
+        user._id !== currentUser._id &&
+        currentUser.content.every((c) => user.content.includes(c)) &&
+        currentUser.server.every((s) => user.server.includes(s))
+      );
+    });
+
+    console.log('filteredUsers:', filteredUsers); 
+
+    setFilteredUsers(filteredUsers);
+    setCurrentIndex(0);
+  }, [currentUser, users]);
 
   const handleLike = () => {
-    // Handle like logic here, e.g. update database, fetch next match
-    const index = matches.findIndex((match) => match.id === currentMatch.id);
-    if (index < matches.length - 1) {
-      setCurrentMatch(matches[index + 1]);
-    } else {
-      // Handle end of matches
-    }
+    const currentUserId = filteredUsers[currentIndex]._id;
+    setLikedUsers([...likedUsers, currentUserId]);
+    setCurrentIndex(currentIndex + 1);
   };
 
-  return (
-    <div>
-      {isLoading && <p>Loading matches...</p>}
-      {error && <p>Error loading matches: {error.message}</p>}
-      {!isLoading && !error && (
-        <>
-          <DisplayPicture imageUrl={currentMatch.imageUrl} />
-          <Bio bio={currentMatch.bio} />
-          <Rankings rankings={currentMatch.rankings} />
-          <button onClick={handleDislike}>Dislike</button>
-          <button onClick={handleLike}>Like</button>
-        </>
-      )}
-    </div>
-  );
-}
+  const handleDislike = () => {
+    const currentUserId = filteredUsers[currentIndex]._id;
+    setDislikedUsers([...dislikedUsers, currentUserId]);
+    setCurrentIndex(currentIndex + 1);
+  };
 
-export default Matches;
+  if (filteredUsers.length === 0) {
+    return <p>No matching users found.</p>;
+  }
+
+  if (currentIndex >= filteredUsers.length) {
+    return <p>No more matches found.</p>;
+  }
+
+  const currentMatch = filteredUsers[currentIndex];
+  const isLiked = likedUsers.includes(currentMatch._id);
+  const isDisliked = dislikedUsers.includes(currentMatch._id);
+
+  return (
+    <>
+      <h2>Matching Users</h2>
+      <div>
+        <p>{currentMatch.username}</p>
+        {!isLiked && !isDisliked && (
+          <>
+            <button onClick={handleLike}>Like</button>
+            <button onClick={handleDislike}>Dislike</button>
+          </>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default UserSearch;

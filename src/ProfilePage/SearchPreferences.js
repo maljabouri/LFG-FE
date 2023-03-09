@@ -83,7 +83,7 @@ const SearchPreferences = ({ username }) => {
   return (
     <>
       {updateSuccessful ? (
-        <p>You have successfully registered! You can now login.</p>
+        <p>You have successfully updated your search preferences!</p>
       ) :
         <form onSubmit={handleSubmit}>          
           <label>
