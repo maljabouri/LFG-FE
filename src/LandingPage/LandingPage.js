@@ -11,7 +11,7 @@ function LandingPage() {
 
   return (
     <div>
-      <h1>Welcome to My App!</h1>
+      <h1>Welcome to LFG!</h1>
       {isRegistering ? <div><RegisterForm/></div> : <div><LoginForm/></div>}
       <button onClick={handleToggle}>{isRegistering ? "Already have an account? Login" : "Need to register? Create an account"}</button>
     </div>

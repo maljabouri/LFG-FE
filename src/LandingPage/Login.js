@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import apiUrl from '../api/api';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
+  const navigate = useNavigate(); // get the navigate function from react-router-dom
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -23,6 +26,7 @@ const LoginForm = () => {
       const response = await axios.post(`${apiUrl}/login`, user);
       const token = response.data.token;
       localStorage.setItem('token', token);
+      navigate('/frontpage');
       // redirect to some page that requires authentication
     } catch (err) {
       console.error(err);

@@ -1,20 +1,24 @@
+import React, { useState, useEffect } from 'react';
 import LandingPage from "./LandingPage/LandingPage";
+import DashBoard from "./DashBoard/DashBoard"
+import LoginForm from "./LandingPage/Login";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
   return (
-    <div>
-      <nav>
-        <ul>
-          <button>Profile</button>
-          <button>Matches</button>
-          <button>Messages</button>
-        </ul>
-      </nav>
+    <div>      
       <h1>LFG</h1>
       <h2>Looking for Gamers</h2>
-      <LandingPage />
+      <Router>
+        <Routes>
+          <Route path="/" element={token ? <Navigate to="/frontpage" /> : <LandingPage />} />
+          <Route path="/frontpage" element={<DashBoard setToken={setToken} />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
 
-export default App;
+export default App
