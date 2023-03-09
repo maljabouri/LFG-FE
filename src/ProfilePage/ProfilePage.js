@@ -25,7 +25,7 @@ const ProfilePage = ({ username }) => {
         </button>
       </div>
       {activeTab === 'searchPreferences' && <SearchPreferences username={username} />}
-      {activeTab === 'changePassword' && <ChangePassword />}
+      {activeTab === 'changePassword' && <ChangePassword username={username} />}
       {activeTab === 'deleteAccount' && <DeleteAccount />}
     </div>
   );
