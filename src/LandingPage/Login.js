@@ -26,6 +26,7 @@ const LoginForm = () => {
       const response = await axios.post(`${apiUrl}/login`, user);
       const token = response.data.token;
       localStorage.setItem('token', token);
+      localStorage.setItem('username', username);      
       navigate('/frontpage');
       // redirect to some page that requires authentication
     } catch (err) {

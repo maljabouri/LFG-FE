@@ -4,10 +4,7 @@ import apiUrl from '../api/api';
 
 
 
-const RegisterForm = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const SearchPreferences = ({ username }) => {
   const [server, setServer] = useState('');
   const [roles, setRoles] = useState([]);
   const [rolesInterest, setRolesInterest] = useState([]);
@@ -15,21 +12,9 @@ const RegisterForm = () => {
   const [rolesValid, setRolesValid] = useState(true);
   const [rolesInterestValid, setRolesInterestValid] = useState(true);
   const [contentValid, setContentValid] = useState(true);
-  const [registrationSuccessful, setRegistrationSuccessful] = useState(false);
-  const [usernameTaken, setUsernameTaken] = useState(false);
+  const [updateSuccessful, setUpdateSuccessful] = useState(false);  
 
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
 
   const handleServerChange = (event) => {
     setServer(event.target.value);
@@ -73,13 +58,6 @@ const RegisterForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Submitting form...')
-    const response = await axios.get(`${apiUrl}/users/${username}`);
-    console.log(response.data)
-    if (response.data.exists) {
-      setUsernameTaken(true);
-      console.log(`username already exists`)
-      return;
-    }
     if (roles.length === 0 || content.length === 0 || rolesInterest.length === 0) {
       console.log('Please select at least one role and one content type.');
       setRolesValid(roles.length > 0);
@@ -87,20 +65,16 @@ const RegisterForm = () => {
       setRolesInterestValid(rolesInterest.length > 0);
       return;
     }
-
-    
+  
     try {
-      const newUser = {
-        username,
-        email,
-        password,
-        server,
-        roles,
-        content,
-        interested_in_roles: rolesInterest
+      const updatedUser = {
+          server,
+          roles,
+          content,
+          interested_in_roles: rolesInterest        
       };
-      await axios.post(`${apiUrl}/register`, newUser);
-      setRegistrationSuccessful(true);
+      await axios.put(`${apiUrl}/users/${username}/preferences`, updatedUser);
+      setUpdateSuccessful(true);
     } catch (err) {
       console.error(err);
     }
@@ -108,25 +82,10 @@ const RegisterForm = () => {
 
   return (
     <>
-      {registrationSuccessful ? (
+      {updateSuccessful ? (
         <p>You have successfully registered! You can now login.</p>
       ) :
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username:
-            <input type="text" value={username} onChange={handleUsernameChange} required />
-            {usernameTaken && (
-              <span style={{ color: "red" }}>This username is already taken. Please choose another one.</span>
-            )}
-          </label>
-          <label>
-            Email:
-            <input type="email" value={email} onChange={handleEmailChange} required />
-          </label>
-          <label>
-            Password:
-            <input type="password" value={password} onChange={handlePasswordChange} required />
-          </label>
+        <form onSubmit={handleSubmit}>          
           <label>
             Server:
             <select value={server} onChange={handleServerChange} required>
@@ -194,11 +153,11 @@ const RegisterForm = () => {
             )}
           </fieldset>
 
-          <button type="submit">Register</button>
+          <button type="submit">Save Changes</button>
         </form>
       }
     </>
   );
 }
 
-export default RegisterForm
+export default SearchPreferences

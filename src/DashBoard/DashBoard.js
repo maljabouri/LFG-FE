@@ -1,8 +1,11 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
+import Matches from '../Matches/Matches';
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 function DashBoard(props) {
   const navigate = useNavigate();
+  const username = localStorage.getItem('username');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -13,6 +16,8 @@ function DashBoard(props) {
   return (
     <div>
       <h1>Welcome to the dashboard!</h1>
+      {/* <Matches /> */}
+      <ProfilePage username={username} />
       <button onClick={handleLogout}>Logout</button>
     </div>
   );

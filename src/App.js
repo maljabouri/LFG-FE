@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LandingPage from "./LandingPage/LandingPage";
 import DashBoard from "./DashBoard/DashBoard"
-import LoginForm from "./LandingPage/Login";
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
