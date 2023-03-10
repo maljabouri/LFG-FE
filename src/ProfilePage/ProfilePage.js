@@ -4,10 +4,27 @@ import ChangePassword from './ChangePassword';
 import DeleteAccount from './DeleteAccount';
 
 const ProfilePage = ({ username }) => {
-  const [activeTab, setActiveTab] = useState('searchPreferences');
+  const [activeTab, setActiveTab] = useState(null);
+  const [showSearchPreferences, setShowSearchPreferences] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showDeleteAccount, setShowDeleteAccount] = useState(false);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+
+    if (tab === 'searchPreferences') {
+      setShowSearchPreferences(true);
+      setShowChangePassword(false);
+      setShowDeleteAccount(false);
+    } else if (tab === 'changePassword') {
+      setShowSearchPreferences(false);
+      setShowChangePassword(true);
+      setShowDeleteAccount(false);
+    } else if (tab === 'deleteAccount') {
+      setShowSearchPreferences(false);
+      setShowChangePassword(false);
+      setShowDeleteAccount(true);
+    }
   };
 
   return (
@@ -24,9 +41,9 @@ const ProfilePage = ({ username }) => {
           Delete Account
         </button>
       </div>
-      {activeTab === 'searchPreferences' && <SearchPreferences username={username} />}
-      {activeTab === 'changePassword' && <ChangePassword username={username} />}
-      {activeTab === 'deleteAccount' && <DeleteAccount username={username} />}
+      {showSearchPreferences && <SearchPreferences username={username} />}
+      {showChangePassword && <ChangePassword username={username} />}
+      {showDeleteAccount && <DeleteAccount username={username} />}
     </div>
   );
 };

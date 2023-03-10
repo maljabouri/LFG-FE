@@ -27,7 +27,6 @@ const ChangePassword = ({ username }) => {
     event.preventDefault();
   
     if (!currentPassword || !newPassword || !confirmPassword) {
-      console.log('Please fill out all fields.');
       setCurrentPasswordValid(!!currentPassword);
       setNewPasswordValid(!!newPassword);
       setConfirmPasswordValid(!!confirmPassword);
@@ -35,7 +34,6 @@ const ChangePassword = ({ username }) => {
     }
   
     if (newPassword !== confirmPassword) {
-      console.log('New password and confirm password do not match.');
       setNewPasswordValid(false);
       setConfirmPasswordValid(false);
       return;
@@ -46,7 +44,6 @@ const ChangePassword = ({ username }) => {
         `${apiUrl}/users/${username}/password`,
         { currentPassword, newPassword }
       );
-      console.log(response);
       setUpdateSuccessful(true);
     } catch (err) {
       console.error(err);

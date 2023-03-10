@@ -24,7 +24,6 @@ const DeleteProfile = ({ username }) => {
     event.preventDefault();
 
     if (!password) {
-      console.log('Please enter your password.');
       setPasswordValid(false);
       return;
     }
@@ -36,8 +35,6 @@ const DeleteProfile = ({ username }) => {
           password
         }
       });
-      console.log(response);
-      console.log('Profile deleted successfully.');
       handleDeleteSuccess();
     } catch (err) {
       console.error(err);

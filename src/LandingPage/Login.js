@@ -20,7 +20,6 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitting form...');
     try {
       const user = { username, password };
       const response = await axios.post(`${apiUrl}/login`, user);

@@ -50,11 +50,9 @@ const RegisterForm = () => {
     if (checked) {
       setRolesInterest([...rolesInterest, value]);
       setRolesInterestValid(true);
-      console.log(event.target)
     } else {
       setRolesInterest(rolesInterest.filter((role) => role !== value));
       setRolesInterestValid(rolesInterest.length > 1);
-      console.log(`removed ${event.target}`)
     }
   };
 
@@ -72,16 +70,12 @@ const RegisterForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitting form...')
     const response = await axios.get(`${apiUrl}/users/${username}`);
-    console.log(response.data)
     if (response.data.exists) {
       setUsernameTaken(true);
-      console.log(`username already exists`)
       return;
     }
     if (roles.length === 0 || content.length === 0 || rolesInterest.length === 0) {
-      console.log('Please select at least one role and one content type.');
       setRolesValid(roles.length > 0);
       setContentValid(content.length > 0);
       setRolesInterestValid(rolesInterest.length > 0);

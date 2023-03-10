@@ -35,11 +35,9 @@ const SearchPreferences = ({ username }) => {
     if (checked) {
       setRolesInterest([...rolesInterest, value]);
       setRolesInterestValid(true);
-      console.log(event.target)
     } else {
       setRolesInterest(rolesInterest.filter((role) => role !== value));
       setRolesInterestValid(rolesInterest.length > 1);
-      console.log(`removed ${event.target}`)
     }
   };
 
@@ -57,9 +55,7 @@ const SearchPreferences = ({ username }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('Submitting form...')
     if (roles.length === 0 || content.length === 0 || rolesInterest.length === 0) {
-      console.log('Please select at least one role and one content type.');
       setRolesValid(roles.length > 0);
       setContentValid(content.length > 0);
       setRolesInterestValid(rolesInterest.length > 0);

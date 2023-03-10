@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import LandingPage from "./LandingPage/LandingPage";
 import DashBoard from "./DashBoard/DashBoard"
+import Messages from './Conversations/Messages';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import axios from 'axios';
+import apiUrl from './api/api';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('token'));  
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const fetchCurrentUser = async () => {
+    const username = localStorage.getItem('username');
+    try {
+      const response = await axios.get(`${apiUrl}/users/${username}/details`);
+      setCurrentUser(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>      
@@ -13,11 +27,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={token ? <Navigate to="/frontpage" /> : <LandingPage />} />
-          <Route path="/frontpage" element={<DashBoard setToken={setToken} />} />
+          <Route path="/frontpage" element={<DashBoard setToken={setToken} currentUser={currentUser} fetchCurrentUser={fetchCurrentUser} />} />
+          <Route path="/messages/:id" element={<Messages currentUser={currentUser} />} />
         </Routes>
       </Router>
     </div>
   );
 }
 
-export default App
+export default App;
