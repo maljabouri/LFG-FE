@@ -12,9 +12,9 @@ I will be using a React/Mongoose stack.
 
 Users should be able to sign up and make an account
 
-Users should be able to set preferences for who they can match with (tank/healer/dps/faction)
+Users should be able to set preferences for who they can match with (tank/healer/dps/server)
 
-Users should be able customize my profile (bio/dp)
+Users should be able customize profile (bio/dp)
 
 Users should be able to view other peoples ranks (m+ score/raid progress)
 
@@ -36,6 +36,22 @@ Page where you look for matches
 Page where you can respond/send DMS
 
 ![dms](https://i.imgur.com/kEdfu6Y.png)
+
+
+
+## MVP
+
+- User Profile (Full CRUD)
+- Ability to view other users based on your preferences
+- Able to connect with users that you match with
+- Able to unmatch users you have matched with
+
+##  TODO 
+
+- add css to the app
+- implement raider.io api
+- implement messaging functionality
+- flesh out the user profile display
 
 
 

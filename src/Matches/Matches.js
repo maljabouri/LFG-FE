@@ -24,6 +24,16 @@ const Matches = ({ currentUser }) => {
     fetchMatches();
   }, [currentUser]);
 
+  const handleUnmatch = async (userId) => {
+    try {
+      await axios.patch(`${apiUrl}/users/unmatch/${currentUser._id}`, { userId });
+      setMatches(matches.filter((match) => match._id !== userId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  
+  
   return (
     <>
       <h2>Your Matches</h2>
@@ -33,11 +43,11 @@ const Matches = ({ currentUser }) => {
           <p>{match.username}</p>
           <p>Roles Played: {match.roles.join(' ')}</p>
           <p>Interested in grouping for the following content: {match.content.join("s, ")}s</p>
+          <button onClick={() => handleUnmatch(match._id)}>Unmatch</button>
           <Message currentUser={currentUser} matchedUser={match} />
         </div>
       ))}
     </>
   );
-};
-
+}  
 export default Matches;

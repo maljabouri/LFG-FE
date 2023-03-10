@@ -83,6 +83,8 @@ const UserSearch = ({ currentUser }) => {
       <h2>Matching Users</h2>
       <div>
         <p>{currentMatch.username}</p>
+        <p>Roles Played: {currentMatch.roles.join(' ')}</p>
+        <p>Interested in grouping for the following content: {currentMatch.content.join("s, ")}s</p>
         {!isLiked && !isDisliked && (
           <>
             <button onClick={handleLike}>Like</button>
