@@ -6,7 +6,7 @@ I will be using one external API https://raider.io/api/ as I believe it will mak
 
 I will be working on this project alone. 
 
-I'm leaning towards using a React/Mongoose stack but I'd like to discuss this with you if possible.
+I will be using a React/Mongoose stack.
 
 ### User Stories
 
