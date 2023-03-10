@@ -53,5 +53,8 @@ Page where you can respond/send DMS
 - implement messaging functionality
 - flesh out the user profile display
 - get my logo on the app 
+
+
+
 ![logo](https://i.imgur.com/0pyQ0xC.png)
 
