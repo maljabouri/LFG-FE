@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LandingPage from "./LandingPage/LandingPage";
 import DashBoard from "./DashBoard/DashBoard"
 import Messages from './Conversations/Messages';
+import Chat from './Conversations/Chat';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import apiUrl from './api/api';
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={token ? <Navigate to="/frontpage" /> : <LandingPage />} />
           <Route path="/frontpage" element={<DashBoard setToken={setToken} currentUser={currentUser} fetchCurrentUser={fetchCurrentUser} />} />
           <Route path="/messages/:id" element={<Messages currentUser={currentUser} />} />
+          <Route path="/chat/:conversationId" element={<Chat currentUser={currentUser} />} />          
         </Routes>
       </Router>
     </div>
